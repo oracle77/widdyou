@@ -1369,9 +1369,15 @@
               statusOff: "AI 연결이 꺼졌어요. 전송이 바로 멈췄고, 대화 기록은 이 기기에 남아 있어요.",
               statusProviderChanged: "제공자가 바뀌었어요. 새 제공자의 키로 연결 테스트를 다시 해주세요.",
               statusKeyDeleted: "이 기기에서 키를 지웠어요.",
-              statusKeyInvalid: "키가 맞지 않거나 권한이 없어 연결할 수 없어요. 키를 확인해 주세요.",
+              statusKeyInvalid: "키가 맞지 않아요. 키가 잘못 복사됐거나, 삭제·만료됐을 수 있어요. 제공자 콘솔에서 키를 확인하거나 새로 발급받아 다시 입력해 주세요.",
               statusQuota: "무료 한도를 넘었어요. 내일 다시 시도하거나 내장 반응으로 대화할 수 있어요.",
-              statusFail: "연결에 실패했어요. 네트워크를 확인하고 다시 시도해 주세요.",
+              statusRateLimit: "요청이 잠시 몰렸어요(짧은 시간 한도). 1분쯤 뒤에 다시 시도해 주세요.",
+              statusNetwork: "AI 서버까지 요청이 닿지 못했어요. 키 문제는 아니에요. 이렇게 해보세요: ① 와이파이·데이터 연결 확인하기 ② 광고 차단·보안 확장 프로그램이 있으면 잠시 끄기 ③ 미리보기 화면이 아니라 브라우저 탭에서 앱 열기. 그래도 안 되면 잠시 뒤에 다시 시도해 주세요.",
+              statusBlocked: "이 미리보기 화면 안에서는 AI 연결이 막혀 있어요. 앱 문제가 아니에요. 브라우저 탭에서 앱 페이지를 열고 다시 시도해 주세요.",
+              statusServer: "AI 회사 서버가 일시적으로 불안정해요(서버 오류). 키 문제는 아니에요. 잠시 뒤에 다시 시도해 주세요.",
+              statusWorkspace: "이 Claude 키는 워크스페이스에 속한 키예요. Anthropic 콘솔에서 워크스페이스를 선택한 상태로 새 키를 발급받아 입력해 주세요.",
+              statusBadRequest: "요청이 거절됐어요. 고급 설정의 모델 이름이 맞는지 확인해 주세요. 기본 모델로 되돌리면 대부분 해결돼요.",
+              statusModel: "고급 설정의 모델 이름을 찾을 수 없어요. 모델 이름을 확인하거나 기본값으로 되돌려 주세요.",
               errKeyEmpty: "키를 먼저 입력해 주세요.",
               errKeyFormatOpenai: "OpenAI 키는 sk- 로 시작해요. 키를 다시 확인해 주세요.",
               errKeyFormatAnthropic: "Claude 키는 sk-ant- 로 시작해요. 키를 다시 확인해 주세요.",
@@ -1387,10 +1393,11 @@
               trimNote: "이전 대화 일부는 기억에서 제외됐어요",
               chatInputPh: "친구에게 하고 싶은 말을 적어보세요", sendBtn: "보내기", thinking: "생각 중…",
               emptyChat: "아직 나눈 대화가 없어요. 먼저 말을 걸어보세요.",
-              fallbackNotice: "지금은 내장 반응으로 답할게요",
+              fallbackNotice: "지금은 AI가 답하지 못해 내장 반응으로 답할게요. 연결이 회복되면 자동으로 AI 대화로 돌아와요.",
+              noticeNetwork: "AI 서버에 닿지 못해 지금은 내장 반응으로 답할게요. 연결이 되면 자동으로 AI 대화로 돌아와요.",
               offlineNotice: "지금은 오프라인이라 내장 반응으로 답할게요",
               quotaNotice: "무료 한도를 넘었어요. 내일 다시 시도하거나 내장 반응으로 대화할 수 있어요.",
-              pausedNotice: "AI가 잠시 멈췄어요. 설정에서 다시 연결해 주세요.",
+              pausedNotice: "AI 연결이 여러 번 실패해서 잠시 멈췄어요. 아래 AI 연결 설정에서 연결 테스트를 다시 해주세요.",
               keyInvalidNotice: "키가 맞지 않아 내장 반응으로 답할게요. 설정에서 키를 확인해 주세요.",
               deletedNotice: "이전 대화를 지웠어요. 새로 시작해요.",
               clearFriendBtn: "이 친구 대화 전체 삭제",
@@ -1473,9 +1480,15 @@
               statusOff: "AI connection is off. Sending stopped right away, and your chat history stays on this device.",
               statusProviderChanged: "The provider changed. Please run the connection test again with the new provider's key.",
               statusKeyDeleted: "The key was removed from this device.",
-              statusKeyInvalid: "The key doesn't match or has no permission. Please check your key.",
+              statusKeyInvalid: "That key isn't accepted. It may have been copied wrong, deleted, or expired. Check it in the provider's console, or issue a new key and enter it here.",
               statusQuota: "You've passed the free-tier limit. Try again tomorrow, or keep chatting with built-in reactions.",
-              statusFail: "Connection failed. Check your network and try again.",
+              statusRateLimit: "Too many requests in a short time. Please wait about a minute and try again.",
+              statusNetwork: "The request never reached the AI server — this isn't a problem with your key. Try: ① check your Wi-Fi/data connection ② temporarily turn off ad-block or security extensions ③ open the app in a browser tab rather than an embedded preview. If it still fails, try again a little later.",
+              statusBlocked: "AI connections are blocked inside this preview screen — that isn't an app problem. Open the app page in a browser tab and try again.",
+              statusServer: "The AI company's server is temporarily unstable (server error). It's not a key problem — please try again shortly.",
+              statusWorkspace: "This Claude key belongs to a workspace. In the Anthropic console, select the workspace and issue a new key, then enter it here.",
+              statusBadRequest: "The request was rejected. Check the model name in Advanced settings — resetting it to the default usually fixes this.",
+              statusModel: "That model name couldn't be found. Check the model name in Advanced settings, or reset it to the default.",
               errKeyEmpty: "Please enter a key first.",
               errKeyFormatOpenai: "OpenAI keys start with sk- . Please check your key.",
               errKeyFormatAnthropic: "Claude keys start with sk-ant- . Please check your key.",
@@ -1491,10 +1504,11 @@
               trimNote: "Some earlier conversation is outside what the AI remembers",
               chatInputPh: "Write what you want to say to your companion", sendBtn: "Send", thinking: "Thinking…",
               emptyChat: "No conversation yet. Say something first.",
-              fallbackNotice: "Answering with a built-in reaction for now",
+              fallbackNotice: "The AI couldn't answer just now, so here's a built-in reaction. Chat returns to AI automatically once it recovers.",
+              noticeNetwork: "Couldn't reach the AI server, so here's a built-in reaction for now. Chat switches back to AI automatically once the connection works.",
               offlineNotice: "You're offline, so here's a built-in reaction",
               quotaNotice: "You've passed the free-tier limit. Try again tomorrow, or keep chatting with built-in reactions.",
-              pausedNotice: "AI has paused. Please reconnect it in Settings.",
+              pausedNotice: "AI paused after several failed attempts. Please run the connection test again in the AI settings below.",
               keyInvalidNotice: "The key doesn't match, so here's a built-in reaction. Please check your key in Settings.",
               deletedNotice: "Earlier conversation was deleted. Starting fresh.",
               clearFriendBtn: "Delete all chat with this companion",
@@ -1577,9 +1591,15 @@
               statusOff: "AI連携をオフにしました。送信はすぐに止まり、会話記録はこの端末に残っています。",
               statusProviderChanged: "提供者が変わりました。新しい提供者のキーで接続テストをやり直してください。",
               statusKeyDeleted: "この端末からキーを消しました。",
-              statusKeyInvalid: "キーが違うか権限がなく、つなげませんでした。キーを確認してください。",
+              statusKeyInvalid: "キーが受け付けられませんでした。コピーの間違い、削除、期限切れの可能性があります。提供者のコンソールでキーを確認するか、新しいキーを発行して入力してください。",
               statusQuota: "無料の上限を超えました。明日もう一度試すか、内蔵の反応で会話できます。",
-              statusFail: "接続に失敗しました。ネットワークを確認して、もう一度試してください。",
+              statusRateLimit: "短時間にリクエストが集中しました。1分ほど待ってから、もう一度試してください。",
+              statusNetwork: "AIサーバーまでリクエストが届きませんでした。キーの問題ではありません。① Wi-Fi・モバイル通信の確認 ② 広告ブロックやセキュリティ拡張機能を一時的にオフ ③ プレビュー画面ではなくブラウザのタブでアプリを開く、を試してください。それでもだめなら、少し時間を置いて再試行してください。",
+              statusBlocked: "このプレビュー画面の中ではAI接続がブロックされています。アプリの問題ではありません。ブラウザのタブでアプリのページを開いて、もう一度試してください。",
+              statusServer: "AI会社のサーバーが一時的に不安定です（サーバーエラー）。キーの問題ではありません。少し待ってから再試行してください。",
+              statusWorkspace: "このClaudeキーはワークスペースに属するキーです。Anthropicコンソールでワークスペースを選んだ状態で新しいキーを発行し、入力してください。",
+              statusBadRequest: "リクエストが拒否されました。詳細設定のモデル名を確認してください。初期値に戻すと多くは解決します。",
+              statusModel: "詳細設定のモデル名が見つかりませんでした。モデル名を確認するか、初期値に戻してください。",
               errKeyEmpty: "先にキーを入力してください。",
               errKeyFormatOpenai: "OpenAIのキーは sk- で始まります。キーを確認してください。",
               errKeyFormatAnthropic: "Claudeのキーは sk-ant- で始まります。キーを確認してください。",
@@ -1595,10 +1615,11 @@
               trimNote: "以前の会話の一部は、記憶の範囲外になっています",
               chatInputPh: "友だちに伝えたいことを書いてください", sendBtn: "送る", thinking: "考え中…",
               emptyChat: "まだ会話がありません。先に声をかけてみてください。",
-              fallbackNotice: "今は内蔵の反応で答えます",
+              fallbackNotice: "今はAIが答えられなかったので、内蔵の反応で答えます。回復すれば自動でAI会話に戻ります。",
+              noticeNetwork: "AIサーバーに届かなかったので、今は内蔵の反応で答えます。接続が回復すれば、自動でAI会話に戻ります。",
               offlineNotice: "今はオフラインなので、内蔵の反応で答えます",
               quotaNotice: "無料の上限を超えました。明日もう一度試すか、内蔵の反応で会話できます。",
-              pausedNotice: "AIが少し止まっています。設定からつなぎ直してください。",
+              pausedNotice: "AI接続が何度か失敗したので、少し止まっています。下のAI接続設定で接続テストをやり直してください。",
               keyInvalidNotice: "キーが違うため、内蔵の反応で答えます。設定でキーを確認してください。",
               deletedNotice: "以前の会話を消しました。新しく始めます。",
               clearFriendBtn: "この友だちの会話をすべて削除",
@@ -1681,9 +1702,15 @@
               statusOff: "AI 連接已關閉。傳送已立即停止，對話記錄仍保留在這台裝置。",
               statusProviderChanged: "提供者已變更。請用新提供者的金鑰重新進行連接測試。",
               statusKeyDeleted: "已從這台裝置刪除金鑰。",
-              statusKeyInvalid: "金鑰不正確或沒有權限，無法連接。請確認你的金鑰。",
+              statusKeyInvalid: "金鑰未被接受。可能複製錯誤、已被刪除或過期。請到提供者的控制台確認金鑰，或重新建立一組再輸入。",
               statusQuota: "已超過免費上限。請明天再試，或改用內建反應對話。",
-              statusFail: "連接失敗。請確認網路後再試一次。",
+              statusRateLimit: "短時間內請求太多。請等約 1 分鐘後再試一次。",
+              statusNetwork: "請求沒有送達 AI 伺服器，這不是金鑰的問題。請試試：① 確認 Wi-Fi／行動網路 ② 暫時關閉廣告攔截或安全擴充功能 ③ 不要在預覽畫面裡操作，改在瀏覽器分頁開啟 App。若仍失敗，請稍後再試。",
+              statusBlocked: "在這個預覽畫面裡，AI 連接會被阻擋，這不是 App 的問題。請在瀏覽器分頁開啟 App 頁面後再試一次。",
+              statusServer: "AI 公司的伺服器暫時不穩定（伺服器錯誤）。這不是金鑰的問題，請稍後再試。",
+              statusWorkspace: "這組 Claude 金鑰屬於某個工作區。請在 Anthropic 控制台先選取該工作區，再建立新的金鑰並輸入。",
+              statusBadRequest: "請求被拒絕。請確認進階設定中的模型名稱，改回預設值通常就能解決。",
+              statusModel: "找不到進階設定中的模型名稱。請確認模型名稱，或改回預設值。",
               errKeyEmpty: "請先輸入金鑰。",
               errKeyFormatOpenai: "OpenAI 金鑰以 sk- 開頭。請再次確認金鑰。",
               errKeyFormatAnthropic: "Claude 金鑰以 sk-ant- 開頭。請再次確認金鑰。",
@@ -1699,10 +1726,11 @@
               trimNote: "較早的部分對話已不在記憶範圍內",
               chatInputPh: "寫下想對朋友說的話", sendBtn: "傳送", thinking: "思考中…",
               emptyChat: "還沒有對話。先開口打招呼吧。",
-              fallbackNotice: "現在先用內建反應回答",
+              fallbackNotice: "AI 剛才無法回答，先用內建反應回答。恢復後會自動回到 AI 對話。",
+              noticeNetwork: "連不上 AI 伺服器，先用內建反應回答。連線恢復後會自動回到 AI 對話。",
               offlineNotice: "目前離線，先用內建反應回答",
               quotaNotice: "已超過免費上限。請明天再試，或改用內建反應對話。",
-              pausedNotice: "AI 暫時停止了。請到設定重新連接。",
+              pausedNotice: "AI 連接連續失敗，已暫時停止。請到下方的 AI 連接設定重新做連接測試。",
               keyInvalidNotice: "金鑰不正確，先用內建反應回答。請到設定確認金鑰。",
               deletedNotice: "已刪除之前的對話。重新開始吧。",
               clearFriendBtn: "刪除與這位朋友的全部對話",
@@ -5094,6 +5122,46 @@
           e.status = status; e.bodyText = bodyText || ""; e.retryAfter = retryAfter || 0; e.daily = !!daily;
           return e;
         }
+        function aiInEmbed(){
+          try { return window.self !== window.top; }
+          catch (e) { return true; }
+        }
+        /* Classify a failed AI request so the message names the real cause
+           (bad key, workspace key, quota, model name, server error, blocked
+           request…) instead of blaming the network for everything. */
+        function aiClassifyError(err){
+          if (!err) return "network";
+          if (err.status === 401 || err.status === 403) return "key";
+          if (err.status === 429) return err.daily ? "quota" : "ratelimit";
+          if (err.status === 404) return "model";
+          if (typeof err.status === "number" && err.status >= 500) return "server";
+          if (err.status === 400){
+            if (/workspace/i.test(err.bodyText || "")) return "workspace";
+            if (/model/i.test(err.bodyText || "")) return "model";
+            return "badrequest";
+          }
+          if (err.status) return "badrequest";
+          /* no HTTP status: the request never reached the server. Inside an
+             embedded preview the host blocks the call itself, so say that
+             instead of telling the user to check their network. */
+          return aiInEmbed() ? "blocked" : "network";
+        }
+        function aiStatusTextFor(kind, T){
+          switch (kind){
+            case "key": return T.statusKeyInvalid;
+            case "quota": return T.statusQuota;
+            case "ratelimit": return T.statusRateLimit;
+            case "server": return T.statusServer;
+            case "workspace": return T.statusWorkspace;
+            case "model": return T.statusModel;
+            case "badrequest": return T.statusBadRequest;
+            case "blocked": return T.statusBlocked;
+            default: return T.statusNetwork;
+          }
+        }
+        function aiErrorDetail(err){
+          return err && err.status ? ("HTTP " + err.status + (err.bodyText ? " — " + String(err.bodyText).slice(0, 300) : "")) : ((err && err.message) || "network error");
+        }
         function aiParseReply(provider, data){
           var text = "", tokens = 0;
           if (provider === "gemini"){
@@ -5287,10 +5355,7 @@
           }).catch(function(err){
             aiTesting = false;
             $("aiTestBtn").disabled = false;
-            var detail = err && err.status ? ("HTTP " + err.status + (err.bodyText ? " — " + String(err.bodyText).slice(0, 300) : "")) : ((err && err.message) || "network error");
-            if (err && (err.status === 401 || err.status === 403)) aiSetStatus(T.statusKeyInvalid, "fail", detail);
-            else if (err && err.status === 429) aiSetStatus(T.statusQuota, "fail", detail);
-            else aiSetStatus(T.statusFail, "fail", detail);
+            aiSetStatus(aiStatusTextFor(aiClassifyError(err), T), "fail", aiErrorDetail(err));
           });
         }
         function aiTurnOff(silent){
@@ -5607,8 +5672,9 @@
           }).catch(function(err){
             $("chatThinking").hidden = true;
             if (aiUserAborted) return;
-            var detail = err && err.status ? ("HTTP " + err.status + (err.bodyText ? " — " + String(err.bodyText).slice(0, 300) : "")) : ((err && err.message) || "network error");
-            if (err && (err.status === 401 || err.status === 403)){
+            var detail = aiErrorDetail(err);
+            var kind = aiClassifyError(err);
+            if (kind === "key"){
               aiStatus.keyInvalid = true;
               aiSaveStatus();
               chatSetNotice(T.keyInvalidNotice);
@@ -5630,6 +5696,8 @@
                 aiStatus.paused = true;
                 aiSaveStatus();
                 chatSetNotice(T.pausedNotice);
+              } else if (kind === "network" || kind === "blocked"){
+                chatSetNotice(T.noticeNetwork);
               } else {
                 chatSetNotice(T.fallbackNotice);
               }
