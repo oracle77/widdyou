@@ -1025,7 +1025,7 @@
             </div>
           </section>
 
-          <!-- CHAT (phase 1: text chat only — AI when connected, built-in reactions otherwise) -->
+          <!-- CHAT (text chat + optional voice — AI when connected, built-in reactions otherwise) -->
           <section class="panel" id="panel-chat" role="tabpanel">
             <div class="card">
               <h2 id="chatPanelTitle">친구와 대화</h2>
@@ -1044,6 +1044,9 @@
               <div class="chat-log chat-tab-log" id="chatPanelLog" aria-live="polite"></div>
               <p class="chat-thinking" id="chatThinking" hidden>생각 중…</p>
               <div class="chat-row">
+                <button class="btn ghost mic-btn" id="chatPanelMicBtn" type="button" style="display:none;" aria-label="음성으로 입력하기">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style="width:20px;height:20px;vertical-align:-4px;"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3Z" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
                 <input id="chatPanelInput" type="text" maxlength="500" placeholder="친구에게 하고 싶은 말을 적어보세요" aria-label="친구에게 보낼 말" />
                 <button class="btn" id="chatPanelSendBtn" type="button">보내기</button>
               </div>
@@ -1411,7 +1414,11 @@
               crisisLeadUrgent: "지금 당장 위험하다고 느껴지면, 먼저 긴급전화로 연락해 주세요.",
               crisisLeadSupport: "전문 상담사와 바로 이야기할 수 있어요. 혼자 견디지 않아도 돼요.",
               crisisEmergency: "긴급전화", crisisHotline109: "자살예방 상담전화 (24시간)", crisisHotline1577: "정신건강 상담전화", crisisLifeline988: "",
-              crisisNeutral: "지금은 대화보다, 거주 지역의 위기 상담 기관에 연락해 도움을 받아주세요."
+              crisisNeutral: "지금은 대화보다, 거주 지역의 위기 상담 기관에 연락해 도움을 받아주세요.",
+              voiceToggle: "음성 대화", voiceMicLabel: "음성으로 입력하기",
+              voiceListening: "듣고 있어요… 말해 보세요",
+              voiceNoSpeech: "아무 소리도 듣지 못했어요. 다시 눌러서 말해 보세요.",
+              voiceNetError: "음성 인식에 연결하지 못했어요. 잠시 후 다시 시도해 주세요."
             }
           },
           en: {
@@ -1522,7 +1529,11 @@
               crisisLeadUrgent: "If you feel in immediate danger, please call emergency services first.",
               crisisLeadSupport: "You can talk to a trained counselor right away. You don't have to carry this alone.",
               crisisEmergency: "Emergency", crisisHotline109: "", crisisHotline1577: "", crisisLifeline988: "Suicide and Crisis Lifeline (24/7)",
-              crisisNeutral: "Please contact a crisis support service in your area for help right away."
+              crisisNeutral: "Please contact a crisis support service in your area for help right away.",
+              voiceToggle: "Voice chat", voiceMicLabel: "Speak to type",
+              voiceListening: "Listening… go ahead",
+              voiceNoSpeech: "I didn't hear anything. Tap the mic and try again.",
+              voiceNetError: "Couldn't reach speech recognition. Please try again in a moment."
             }
           },
           ja: {
@@ -1633,7 +1644,11 @@
               crisisLeadUrgent: "今すぐ危険だと感じたら、まず緊急電話に連絡してください。",
               crisisLeadSupport: "専門の相談員とすぐに話せます。ひとりで抱え込まなくて大丈夫です。",
               crisisEmergency: "緊急電話", crisisHotline109: "", crisisHotline1577: "", crisisLifeline988: "",
-              crisisNeutral: "今は会話よりも、お住まいの地域の危機相談機関に連絡して、助けを求めてください。"
+              crisisNeutral: "今は会話よりも、お住まいの地域の危機相談機関に連絡して、助けを求めてください。",
+              voiceToggle: "音声会話", voiceMicLabel: "音声で入力",
+              voiceListening: "聞いています…どうぞ",
+              voiceNoSpeech: "何も聞こえませんでした。もう一度マイクを押して話してみてください。",
+              voiceNetError: "音声認識に接続できませんでした。少し待ってからもう一度お試しください。"
             }
           },
           "zh-TW": {
@@ -1744,7 +1759,11 @@
               crisisLeadUrgent: "如果你覺得自己正處於立即的危險中，請先撥打緊急電話。",
               crisisLeadSupport: "你可以立即和專業諮詢人員談談。你不需要獨自承受。",
               crisisEmergency: "緊急電話", crisisHotline109: "", crisisHotline1577: "", crisisLifeline988: "",
-              crisisNeutral: "現在先不要繼續對話，請聯絡你所在地區的危機諮詢機構尋求協助。"
+              crisisNeutral: "現在先不要繼續對話，請聯絡你所在地區的危機諮詢機構尋求協助。",
+              voiceToggle: "語音對話", voiceMicLabel: "用語音輸入",
+              voiceListening: "正在聽你說話…請說",
+              voiceNoSpeech: "沒有聽到聲音，請再按一次麥克風說說看。",
+              voiceNetError: "無法連接語音辨識，請稍後再試。"
             }
           }
         };
@@ -4879,7 +4898,8 @@
         renderBackupTexts();
 
         /* ================= AI friend connection — phase 1: text chat only =================
-           Bring-your-own-key, off by default. No voice (phase 2), no SDK — plain fetch.
+           Bring-your-own-key, off by default. Voice: browser speech recognition +
+           speech synthesis, off by default, no SDK — plain fetch.
            Storage (never part of backup export):
            - settings: localStorage "widdyou-ai-settings-v1"
            - keys:     localStorage "widdyou-ai-keys-v1" (per provider, this device only)
@@ -4985,7 +5005,7 @@
         function aiDefaultSettings(){
           return { enabled: false, provider: "gemini",
             models: { gemini: "gemini-3.5-flash-lite", openai: "gpt-5-mini", anthropic: "claude-haiku-5-5" },
-            contextExchanges: 20, ageConfirmed: false, consent: {}, failCount: 0, cooldownUntil: 0, crisisCount: 0 };
+            contextExchanges: 20, ageConfirmed: false, consent: {}, failCount: 0, cooldownUntil: 0, crisisCount: 0, voiceEnabled: false };
         }
         var aiSettings = (function(){
           var base = aiDefaultSettings();
@@ -4999,6 +5019,7 @@
                 if (d.models && typeof d.models === "object") Object.keys(base.models).forEach(function(k){ if (typeof d.models[k] === "string" && d.models[k]) base.models[k] = d.models[k]; });
                 if (d.contextExchanges === 10 || d.contextExchanges === 20) base.contextExchanges = d.contextExchanges;
                 if (typeof d.ageConfirmed === "boolean") base.ageConfirmed = d.ageConfirmed;
+                if (typeof d.voiceEnabled === "boolean") base.voiceEnabled = d.voiceEnabled;
                 if (d.consent && typeof d.consent === "object") base.consent = d.consent;
                 ["failCount", "cooldownUntil", "crisisCount"].forEach(function(k){ if (typeof d[k] === "number" && isFinite(d[k]) && d[k] >= 0) base[k] = d[k]; });
               }
@@ -5300,6 +5321,7 @@
           setText("#chatRestNote", T.restNotice);
           setText("#chatTrimNote", T.trimNote);
           setText("#chatMemoryChip", T.chipMemory);
+          voiceSyncUI();
           aiSyncCard();
           renderChat();
         }
@@ -5627,7 +5649,7 @@
         function aiReplyBuiltin(fid){
           reactTo("calm");
           var msg = { id: aiMsgId(), friendId: fid, role: "builtin", text: aiBuiltinReplyText(), source: "builtin", provider: "", model: "", createdAt: Date.now(), tokens: 0 };
-          return aiAddMessage(msg).then(function(){ if (fid === activePetId) renderChat(); });
+          return aiAddMessage(msg).then(function(){ if (fid === activePetId) renderChat(); voiceSpeak(msg.text); });
         }
         function aiBuildTurns(){
           var limit = aiSettings.contextExchanges === 10 ? 10 : 20;
@@ -5668,7 +5690,7 @@
             aiSettings.failCount = 0;
             aiSaveSettings();
             var msg = { id: aiMsgId(), friendId: fid, role: "ai", text: replyText, source: "ai", provider: p, model: model, createdAt: Date.now(), tokens: res.tokens || 0 };
-            return aiAddMessage(msg).then(function(){ if (fid === activePetId) renderChat(); });
+            return aiAddMessage(msg).then(function(){ if (fid === activePetId) renderChat(); if (!filt.blocked) voiceSpeak(replyText); });
           }).catch(function(err){
             $("chatThinking").hidden = true;
             if (aiUserAborted) return;
@@ -5708,6 +5730,8 @@
         }
         function chatSend(){
           if (chatSending || chatBlocked) return;
+          voiceStopSpeech();
+          voiceStopListening();
           var input = $("chatPanelInput");
           var text = input.value.trim();
           if (!text) return;
@@ -5777,11 +5801,199 @@
           });
         });
 
+        /* ----- voice conversation (speech input + spoken replies) -----
+           Browser-only, no new keys, no paid service. Voice mode is off by
+           default and stored in widdyou-ai-settings-v1 (voiceEnabled).
+           - Input: window.SpeechRecognition / webkitSpeechRecognition. The
+             transcript goes into the live chat panel input and auto-sends on
+             a final result, so the normal chatSend() flow (crisis check,
+             AI/builtin reply) applies unchanged.
+           - Output: window.speechSynthesis speaks the friend's reply text
+             (markdown stripped). Crisis cards are never spoken: the medical
+             correction replacement is not spoken, and the crisis card itself
+             is a separate element, not a chat message.
+           - The sidebar #voiceToggleBtn is the master switch; both mic
+             buttons (sidebar #chatMicBtn and panel #chatPanelMicBtn) drive
+             the same recognition. The sidebar mini-chat input itself is
+             unwired (legacy), so spoken text always goes to the live panel. */
+        var voiceRec = null;
+        var voiceListening = false;
+        var voiceDenied = false;
+        var voiceFinalText = "";
+        var voiceNoteTimer = null;
+        function voiceSupported(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); }
+        function voiceLangCode(){
+          var m = { "ko": "ko-KR", "en": "en-US", "ja": "ja-JP", "zh-TW": "zh-TW", "zh-HK": "zh-HK" };
+          return m[currentLang] || "ko-KR";
+        }
+        function voiceSyncUI(){
+          var T = aiT();
+          var on = !!aiSettings.voiceEnabled;
+          var supported = voiceSupported();
+          var tgl = $("voiceToggleBtn");
+          if (tgl) tgl.setAttribute("aria-pressed", on ? "true" : "false");
+          var tl = $("voiceToggleLabel");
+          if (tl) tl.textContent = T.voiceToggle;
+          var note = $("voiceNote");
+          if (note) note.style.display = on && supported ? "" : "none";
+          var uns = $("voiceUnsupported");
+          if (uns) uns.style.display = on && !supported ? "" : "none";
+          var den = $("voiceDenied");
+          if (den) den.style.display = on && supported && voiceDenied ? "" : "none";
+          var micAria = T.voiceMicLabel;
+          var m1 = $("chatMicBtn");
+          if (m1){ m1.style.display = on && supported ? "" : "none"; m1.classList.toggle("rec", voiceListening); m1.setAttribute("aria-label", micAria); }
+          var m2 = $("chatPanelMicBtn");
+          if (m2){ m2.style.display = on && supported ? "" : "none"; m2.classList.toggle("rec", voiceListening); m2.setAttribute("aria-label", micAria); }
+          var input = $("chatPanelInput");
+          if (input && !voiceNoteTimer) input.placeholder = voiceListening ? T.voiceListening : T.chatInputPh;
+        }
+        function voiceSetEnabled(on){
+          aiSettings.voiceEnabled = !!on;
+          aiSaveSettings();
+          if (!on){ voiceStopListening(); voiceStopSpeech(); voiceDenied = false; }
+          voiceSyncUI();
+        }
+        function voiceTransientNote(msg){
+          var input = $("chatPanelInput");
+          if (!input) return;
+          input.placeholder = msg;
+          if (voiceNoteTimer) clearTimeout(voiceNoteTimer);
+          voiceNoteTimer = setTimeout(function(){
+            voiceNoteTimer = null;
+            voiceSyncUI();
+          }, 3500);
+        }
+        function voiceStartListening(){
+          if (!voiceSupported()){ voiceSyncUI(); return; }
+          if (!aiSettings.voiceEnabled) return;
+          if (voiceListening){ voiceStopListening(); return; }
+          voiceStopSpeech();
+          voiceDenied = false;
+          var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+          var rec;
+          try { rec = new SR(); } catch (e){ voiceSyncUI(); return; }
+          voiceRec = rec;
+          voiceFinalText = "";
+          rec.lang = voiceLangCode();
+          rec.interimResults = true;
+          rec.continuous = false;
+          rec.maxAlternatives = 1;
+          rec.onresult = function(e){
+            var interim = "", finalText = "";
+            for (var i = e.resultIndex; i < e.results.length; i++){
+              var r = e.results[i];
+              if (r.isFinal) finalText += r[0].transcript;
+              else interim += r[0].transcript;
+            }
+            var input = $("chatPanelInput");
+            if (finalText){
+              voiceFinalText = (voiceFinalText + " " + finalText).trim();
+              if (input) input.value = voiceFinalText;
+              var toSend = voiceFinalText;
+              voiceFinalText = "";
+              voiceStopListening();
+              if (toSend) chatSend();
+            } else if (interim){
+              if (input) input.value = voiceFinalText ? (voiceFinalText + " " + interim) : interim;
+            }
+          };
+          rec.onerror = function(e){
+            var err = (e && e.error) || "";
+            if (err === "not-allowed" || err === "service-not-allowed"){
+              voiceDenied = true;
+              voiceSyncUI();
+            } else if (err === "no-speech"){
+              voiceTransientNote(aiT().voiceNoSpeech);
+            } else if (err === "network"){
+              voiceTransientNote(aiT().voiceNetError);
+            }
+            voiceStopListening();
+          };
+          rec.onend = function(){
+            voiceListening = false;
+            voiceRec = null;
+            voiceSyncUI();
+          };
+          try {
+            rec.start();
+            voiceListening = true;
+            voiceSyncUI();
+          } catch (e){
+            voiceListening = false;
+            voiceRec = null;
+            voiceSyncUI();
+          }
+        }
+        function voiceStopListening(){
+          if (voiceRec){ try { voiceRec.stop(); } catch (e) {} }
+          voiceRec = null;
+          voiceListening = false;
+          voiceSyncUI();
+        }
+        function voiceStripForSpeech(text){
+          var t = String(text || "");
+          t = t.replace(/\[([^\]]*)\]\([^)]*\)/g, "$1");
+          t = t.replace(/[*_`#>\-~]/g, " ");
+          t = t.replace(/\s+/g, " ").trim();
+          return t;
+        }
+        function voicePickVoice(){
+          if (!("speechSynthesis" in window)) return null;
+          var voices = [];
+          try { voices = window.speechSynthesis.getVoices() || []; } catch (e){ return null; }
+          var code = voiceLangCode().toLowerCase();
+          var short = code.slice(0, 2);
+          var pool = voices.filter(function(v){ return v.lang && v.lang.toLowerCase() === code; });
+          if (!pool.length) pool = voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf(short) === 0; });
+          if (!pool.length) return null;
+          var gender = (typeof state !== "undefined" && state) ? state.voiceGender : "";
+          if (gender === "female" || gender === "male"){
+            var hints = gender === "female" ? ["female", "여성", "女", "여자"] : ["male", "남성", "男", "남자"];
+            var match = pool.filter(function(v){
+              var n = String(v.name || "").toLowerCase();
+              for (var i = 0; i < hints.length; i++){ if (n.indexOf(hints[i].toLowerCase()) >= 0) return true; }
+              return false;
+            });
+            if (match.length) return match[0];
+          }
+          var def = pool.filter(function(v){ return v.default; });
+          return def.length ? def[0] : pool[0];
+        }
+        function voiceSpeak(text){
+          if (!aiSettings.voiceEnabled) return;
+          if (!("speechSynthesis" in window)) return;
+          var clean = voiceStripForSpeech(text);
+          if (!clean) return;
+          try {
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(clean);
+            u.lang = voiceLangCode();
+            var v = voicePickVoice();
+            if (v) u.voice = v;
+            window.speechSynthesis.speak(u);
+          } catch (e) {}
+        }
+        function voiceStopSpeech(){
+          try { if ("speechSynthesis" in window) window.speechSynthesis.cancel(); } catch (e) {}
+        }
+
         /* ----- AI module init ----- */
         aiFieldsOpen = !!(aiSettings.enabled || aiKeys.gemini || aiKeys.openai || aiKeys.anthropic);
         $("aiModelInput").value = aiSettings.models[aiSettings.provider] || AI_PROVIDERS[aiSettings.provider].model;
         $("aiContextSel").value = aiSettings.contextExchanges === 10 ? "10" : "20";
         aiSyncCard();
+
+        /* voice conversation: toggle + mic buttons */
+        (function(){
+          var vt = $("voiceToggleBtn");
+          if (vt) vt.addEventListener("click", function(){ voiceSetEnabled(!aiSettings.voiceEnabled); });
+          var mb = $("chatMicBtn");
+          if (mb) mb.addEventListener("click", function(){ voiceStartListening(); });
+          var pmb = $("chatPanelMicBtn");
+          if (pmb) pmb.addEventListener("click", function(){ voiceStartListening(); });
+        })();
+        voiceSyncUI();
 
         /* ---------- init ---------- */
         loadState();
