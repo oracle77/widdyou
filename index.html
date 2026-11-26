@@ -90,6 +90,7 @@
       .lang-switch button{border:none;background:transparent;border-radius:999px;padding:8px 14px;font-weight:700;font-size:.85rem;color:var(--ink-soft);min-height:2.5rem;}
       .lang-switch button[aria-pressed="true"]{background:var(--green);color:#fff;}
       .human-note{font-size:.82rem;line-height:1.65;color:var(--ink-soft);margin:10px 0 0;background:var(--sun-soft);border:1.5px dashed var(--sun);border-radius:12px;padding:10px 12px;}
+      .sync-note{font-size:.86rem;line-height:1.65;color:var(--ink);margin:12px 0 0;background:var(--coral-soft);border:1.5px dashed var(--coral);border-radius:12px;padding:10px 12px;}
 
       /* ---------- layout ---------- */
       .layout{display:grid;grid-template-columns:400px 1fr;gap:18px;align-items:start;}
@@ -646,6 +647,8 @@
 
       <p class="wallet-note">코인 지갑은 모든 친구가 함께 써요. 하루 보상(체크인·호흡·목표·일기)은 친구마다 따로 세지 않고 모두 합쳐서 세기 때문에, <b>친구를 바꿔도 하루 보상은 다시 받을 수 없어요.</b></p>
 
+      <p class="sync-note" id="syncNote">Widdyou 기록은 이 기기에만 저장돼요. 다른 기기와 자동으로 동기화되지 않고, 백업 파일로 옮기면 한쪽 기록이 통째로 바뀔 수 있어요. 사진·영상도 이 기기에만 있어요.</p>
+
       <div class="pet-switcher" id="petSwitcher" role="group" aria-label="친구 선택 — 여러 친구를 등록하고 전환할 수 있어요"></div>
 
       <div class="layout">
@@ -1126,6 +1129,7 @@
             <label class="field-label" for="backupPassword" id="backupPwLabel" style="margin-top:14px;">백업 비밀번호 (선택)</label>
             <input class="backup-pw" id="backupPassword" type="password" autocomplete="new-password" placeholder="비밀번호를 정하면 파일이 암호화돼요" aria-describedby="backupPlainWarn" />
             <p class="backup-warn" id="backupPlainWarn">비밀번호를 정하지 않으면 암호화되지 않은 파일로 저장돼요. 이 파일에는 기분 기록·일기 같은 <b>개인 기록이 들어 있으니</b>, 아무나 볼 수 없는 곳에 보관해 주세요.</p>
+            <p class="backup-warn" id="backupRestoreWarn">복원하면 지금 이 기기의 기록이 백업 내용으로 통째로 덮어써져요. 복원하기 전에 지금 기기의 기록을 먼저 백업해 두세요. 사진·영상을 제외한 백업으로 복원하면 이 기기 추억 보관함의 사진·영상이 지워질 수 있어요.</p>
             <div class="backup-row">
               <button class="btn coral" id="backupExportBtn" type="button">백업 파일 내보내기 (.json)</button>
               <button class="btn ghost" id="backupImportBtn" type="button">백업 파일 가져오기</button>
@@ -1309,6 +1313,7 @@
           ko: {
             brandSub: "나를 돌보면, 친구도 함께 자라요", tagline: "혼자가 아니야", coin: "코인", xp: "마음 XP",
             walletNote: "코인 지갑은 모든 친구가 함께 써요. 하루 보상(체크인·호흡·목표·일기)은 친구마다 따로 세지 않고 모두 합쳐서 세기 때문에, <b>친구를 바꿔도 하루 보상은 다시 받을 수 없어요.</b>",
+            syncNotice: "Widdyou 기록은 이 기기에만 저장돼요. 다른 기기와 자동으로 동기화되지 않고, 백업 파일로 옮기면 한쪽 기록이 통째로 바뀔 수 있어요. 사진·영상도 이 기기에만 있어요.",
             tabs: { mood: "기분 체크인", goals: "오늘의 목표", breath: "호흡", journal: "마음 일기", shop: "상점", memory: "추억 보관함", share: "공유", chat: "대화" },
             moodTitle: "지금 기분은 어때요?", moodSub: "좋은 기분이든 힘든 기분이든, 솔직하게 골라도 괜찮아요. 기록하는 것 자체가 나를 돌보는 첫걸음이에요.",
             moodReward: "오늘 첫 3회 체크인까지 XP +10 · 코인 +5 (이후에는 기록만 저장돼요)",
@@ -1424,6 +1429,7 @@
           en: {
             brandSub: "Care for yourself, and your companion grows with you", tagline: "You're not alone", coin: "Coins", xp: "Heart XP",
             walletNote: "The coin wallet is shared by all companions. Daily rewards (check-ins, breathing, goals, journal) are counted together across all companions, so <b>switching companions does not reset the day's rewards.</b>",
+            syncNotice: "Widdyou records are stored only on this device. They do not sync automatically with other devices, and restoring a backup file can replace all records on this device. Photos and videos stay on this device only.",
             tabs: { mood: "Mood check-in", goals: "Today's goals", breath: "Breathing", journal: "Journal", shop: "Shop", memory: "Memory box", share: "Share", chat: "Chat" },
             moodTitle: "How are you feeling right now?", moodSub: "Good or hard, it's okay to be honest. Simply recording it is the first step in caring for yourself.",
             moodReward: "XP +10 · Coins +5 for each of today's first 3 check-ins (after that, entries are saved without rewards)",
@@ -1539,6 +1545,7 @@
           ja: {
             brandSub: "自分をいたわると、友だちも一緒に育ちます", tagline: "ひとりじゃない", coin: "コイン", xp: "こころXP",
             walletNote: "コインのお財布は、すべての友だちで共有します。1日のごほうび（チェックイン・呼吸・目標・日記）は友だちごとに数えず、ぜんぶ合わせて数えるので、<b>友だちを替えても1日のごほうびは再度受け取れません。</b>",
+            syncNotice: "Widdyouの記録はこの端末にのみ保存されます。他の端末と自動で同期されず、バックアップファイルで移すと片方の記録がすべて置き換わることがあります。写真・動画もこの端末にのみあります。",
             tabs: { mood: "気分チェックイン", goals: "今日の目標", breath: "呼吸", journal: "こころ日記", shop: "ショップ", memory: "思い出ボックス", share: "共有", chat: "会話" },
             moodTitle: "今の気分はいかがですか？", moodSub: "良い気分でも、つらい気分でも、正直に選んで大丈夫です。記録すること自体が、自分をいたわる第一歩です。",
             moodReward: "今日の最初の3回まで XP +10・コイン +5（それ以降は記録のみ保存されます）",
@@ -1654,6 +1661,7 @@
           "zh-TW": {
             brandSub: "照顧好自己，朋友也會陪著你一起成長", tagline: "你不是一個人", coin: "金幣", xp: "心情 XP",
             walletNote: "金幣錢包由所有朋友共同使用。每日獎勵（打卡·呼吸·目標·日記）是所有朋友合併計算的，所以<b>即使更換朋友，今天的獎勵也不能重複領取。</b>",
+            syncNotice: "Widdyou 的紀錄只儲存在這台裝置上，不會自動與其他裝置同步，用備份檔轉移時，其中一邊的紀錄可能會被整個取代。照片·影片也只在這台裝置上。",
             tabs: { mood: "心情打卡", goals: "今日目標", breath: "呼吸", journal: "心情日記", shop: "商店", memory: "回憶收藏盒", share: "分享", chat: "對話" },
             moodTitle: "現在的心情如何？", moodSub: "無論是好心情還是辛苦的心情，誠實選擇就好。光是記錄下來，就是照顧自己的第一步。",
             moodReward: "今天前 3 次打卡可獲得 XP +10 · 金幣 +5（之後只儲存記錄）",
@@ -1782,7 +1790,8 @@
           privacyList: ["<b>儲存的項目：</b>朋友的名字·種類、心情打卡（心情·感受標籤·備註）、今日目標、心情日記、成長日記（包括朋友的回應記錄）、上次開啟日期、商店購買·穿戴記錄、回憶收藏盒的相片·影片。", "<b>儲存位置：</b>全部只儲存在這台裝置的瀏覽器儲存空間（localStorage·IndexedDB）。不會傳送到伺服器，也不會收集帳戶資料。", "<b>相片·影片的位置資料處理：</b>相片在上載時會自動重新編碼，移除位置資料（EXIF）——位置資料不會被儲存。影片因技術限制無法移除位置資料，可能會保留在檔案中。", "<b>保留期間：</b>直至你親自刪除或清除瀏覽器資料為止，都會保留在這台裝置上。", "<b>提供予第三者：</b>不會將任何資料提供予第三者。正式 App 若加入廣告（AdMob），屆時將另行公布政策。", "<b>刪除方法：</b>相片·影片可在回憶收藏盒中逐項刪除，記錄可透過刪除朋友個人檔案來清除。在瀏覽器設定中清除此網站的資料即可全部刪除。", "<b>聯絡方法：</b>這個網頁預覽沒有專門的聯絡渠道。正式 App 推出時，將在商店頁面和 App 內公布聯絡電郵。"],
           photoNote: "如果有一隻無法再一起生活的寵物，你可以用他的<b>名字和相片·影片</b>，讓他留在這裡陪著你。每天打卡時，那位朋友都會陪著你。上載的相片·影片只儲存在<b>這台裝置（手機）</b>，不會傳送到伺服器，也可以一起收在下方的<b>回憶收藏盒</b>分頁。相片上載時會<b>自動移除位置資料（EXIF）</b>——位置資料不會被儲存。影片無法移除位置資料，可能會保留在檔案中，分享時請留意。<b>請只上載你有權使用的相片·影片。</b>他人的相片，請在取得對方同意後才上載。",
           humanNote: "「人類朋友」是 App 繪製的<b>插圖成年角色</b>，不是真實人物的相片。如果你想把真實人物的相片留在身邊，請在「我的相片·影片」中上載你有權使用的相片。插圖人類朋友可以免費陪伴你。",
-          storageNote: "相片·影片不會上載到伺服器，只儲存在<b>這台裝置（手機）的瀏覽器儲存空間（IndexedDB）</b>。因此在其他裝置上看不到，清除瀏覽器資料或刪除 App 時亦可能一併被刪除。珍貴的原始檔案請同時保留在手機的相片 App 中。較長的影片會佔用較多裝置空間，建議使用短片。相片會以<b>已移除位置資料（EXIF）</b>的狀態儲存——位置資料不會被儲存。影片無法移除位置資料，可能會原樣保留。想和家人分享時，請使用每個項目的<b>「匯出」</b>按鈕直接傳送檔案——這是不經伺服器的手動分享。朋友的新增與刪除由使用這台裝置的<b>1 位主要管理者</b>負責。"
+          storageNote: "相片·影片不會上載到伺服器，只儲存在<b>這台裝置（手機）的瀏覽器儲存空間（IndexedDB）</b>。因此在其他裝置上看不到，清除瀏覽器資料或刪除 App 時亦可能一併被刪除。珍貴的原始檔案請同時保留在手機的相片 App 中。較長的影片會佔用較多裝置空間，建議使用短片。相片會以<b>已移除位置資料（EXIF）</b>的狀態儲存——位置資料不會被儲存。影片無法移除位置資料，可能會原樣保留。想和家人分享時，請使用每個項目的<b>「匯出」</b>按鈕直接傳送檔案——這是不經伺服器的手動分享。朋友的新增與刪除由使用這台裝置的<b>1 位主要管理者</b>負責。",
+          syncNotice: "Widdyou 嘅紀錄只係儲喺呢部裝置入面，唔會自動同其他裝置同步，用備份檔轉移嗰陣，其中一邊嘅紀錄可能會成個被取代。相片·影片都只係喺呢部裝置入面。",
         });
 
         var LANG_DATA = {
@@ -1944,6 +1953,7 @@
           setText("#brandSub", T.brandSub);
           setText("#brandTagline", T.tagline);
           setHtml(".wallet-note", T.walletNote);
+          setHtml("#syncNote", T.syncNotice);
           var pills = document.querySelectorAll(".pill");
           if (pills[0]) pills[0].childNodes.forEach(function(n){ if (n.nodeType === 3 && n.textContent.trim()) n.textContent = " " + T.coin + " "; });
           if (pills[1]) pills[1].childNodes.forEach(function(n){ if (n.nodeType === 3 && n.textContent.trim()) n.textContent = " " + T.xp + " "; });
@@ -4645,6 +4655,7 @@
           setText("#backupExportBtn", L3("백업 파일 내보내기 (.json)", "Export backup file (.json)", "バックアップファイルを書き出す（.json）"));
           setText("#backupImportBtn", L3("백업 파일 가져오기", "Import backup file", "バックアップファイルを読み込む"));
           setText("#backupPremiumNote", L3("프리미엄 구매 상태는 백업 파일에 포함되지 않아요. 프리미엄은 네이티브 출시 후 스토어 구매 복원으로 연결됩니다.", "Premium purchase status is not included in the backup file. After the native app launches, Premium will be restored through store purchase restoration.", "プレミアムの購入状態はバックアップファイルに含まれません。プレミアムは、ネイティブアプリのリリース後、ストアの購入復元で連携されます。"));
+          setText("#backupRestoreWarn", L3("복원하면 지금 이 기기의 기록이 백업 내용으로 통째로 덮어써져요. 복원하기 전에 지금 기기의 기록을 먼저 백업해 두세요. 사진·영상을 제외한 백업으로 복원하면 이 기기 추억 보관함의 사진·영상이 지워질 수 있어요.", "Restoring replaces all records on this device with the backup's contents. Back up this device's records first before restoring. Restoring from a backup made without photos and videos can delete the photos and videos in this device's memory box.", "復元すると、今この端末にある記録がバックアップの内容ですべて置き換わります。復元する前に、今の端末の記録を先にバックアップしておきましょう。写真・動画を含まないバックアップから復元すると、この端末の思い出ボックスの写真・動画が消えることがあります。", "還原會將這台裝置上的紀錄全部取代為備份檔的內容。還原前，請先備份這台裝置的紀錄。用不含照片·影片的備份檔還原，可能會刪除這台裝置回憶收藏盒裡的照片·影片。", "還原會將呢部裝置上面嘅紀錄成個取代做備份檔嘅內容。還原之前，請先備份呢部裝置嘅紀錄。用唔包括相片·影片嘅備份檔還原，可能會刪除呢部裝置回憶收藏盒入面嘅相片·影片。"));
           var fi = $("backupImportInput");
           if (fi) fi.setAttribute("aria-label", L3("백업 파일 선택", "Choose a backup file", "バックアップファイルを選ぶ"));
           updateBackupWarn();
@@ -4780,6 +4791,11 @@
           var warn = document.createElement("p");
           warn.textContent = L3("복원하면 지금 이 기기의 기록이 백업 내용으로 덮어써져요. 걱정되면 먼저 현재 데이터를 백업해 두세요.", "Restoring overwrites the records currently on this device with the backup's contents. If you're unsure, back up the current data first.", "復元すると、今この端末にある記録がバックアップの内容で上書きされます。心配なときは、先に今のデータをバックアップしておきましょう。");
           body.appendChild(warn);
+          if (!((payload && payload.media) || []).length){
+            var mediaWarn = document.createElement("p");
+            mediaWarn.textContent = L3("이 백업에는 사진·영상이 들어 있지 않아요. 이대로 복원하면 이 기기 추억 보관함의 사진·영상이 지워져요.", "This backup contains no photos or videos. Restoring it will delete the photos and videos in this device's memory box.", "このバックアップには写真・動画が含まれていません。このまま復元すると、この端末の思い出ボックスの写真・動画が消えます。", "這個備份檔沒有照片·影片。直接還原會刪除這台裝置回憶收藏盒裡的照片·影片。", "呢個備份檔冇相片·影片。直接還原會刪除呢部裝置回憶收藏盒入面嘅相片·影片。");
+            body.appendChild(mediaWarn);
+          }
           backupModalError("");
           if (!$("backupModal").classList.contains("open")) openBackupModal();
           setBackupModalBtns([
