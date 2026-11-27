@@ -600,9 +600,11 @@
       .toast.show{transform:translate(-50%,0);opacity:1;visibility:visible;}
       .modal-back{
         position:fixed;inset:0;background:rgba(20,30,18,.55);display:none;place-items:center;z-index:70;padding:16px;
+        overflow-y:auto;
       }
       .modal-back.open{display:grid;}
-      .modal{background:var(--card);color:var(--ink);border-radius:20px;max-width:420px;width:100%;padding:24px;box-shadow:var(--shadow);}
+      .modal{background:var(--card);color:var(--ink);border-radius:20px;max-width:420px;width:100%;padding:24px;box-shadow:var(--shadow);max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+      .photo-hint{font-size:.85rem;line-height:1.6;color:var(--green-deep);background:var(--green-soft);border:1.5px dashed var(--green);border-radius:12px;padding:10px 12px;margin:10px 0 0;}
       .modal h3{font-family:"Jua",sans-serif;font-weight:400;font-size:1.25rem;margin:0 0 10px;}
       .modal p{line-height:1.7;font-size:.93rem;margin:0 0 18px;color:var(--ink-soft);}
       .particle{
@@ -1236,6 +1238,7 @@
         <input id="newPetName" type="text" maxlength="10" placeholder="예: 몽이" style="width:100%;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;font:inherit;font-size:.95rem;background:var(--card);color:var(--ink);" />
         <span class="field-label">어떤 친구인가요?</span>
         <div class="species-grid" id="newPetSpeciesGrid" role="group" aria-label="새 친구 종류 선택"></div>
+        <p class="photo-hint" id="photoPickerHint" style="display:none;">등록하기를 누르면 사진·영상 선택창이 열려요.</p>
         <span class="field-label" id="newProfileLabel">친구 프로필 (선택) — AI 대화와 음성에만 쓰여요</span>
         <div class="profile-grid">
           <label><span class="profile-field-label" data-profile-label="gender">성별</span>
@@ -2033,6 +2036,7 @@
           setText("#premiumCloseBtn", L3("확인했어요", "Got it", "わかりました"));
           setText("#petModalTitle", L3("새 친구 등록하기", "Add a new companion", "新しい友だちを登録する"));
           setText("#petCreateBtn", L3("등록하기", "Add", "登録する"));
+          setText("#photoPickerHint", L3("등록하기를 누르면 사진·영상 선택창이 열려요.", "Tap Register and the photo · video picker will open.", "「登録する」を押すと写真・動画の選択画面が開きます。", "按下「新增」後會開啟照片·影片選擇畫面。", "撳「新增」之後會開啟相片·影片選擇畫面。"));
           setText("#petCancelBtn", L3("취소", "Cancel", "キャンセル"));
           setText("#mediaCloseBtn", L3("닫기", "Close", "閉じる"));
           document.querySelectorAll("#langSwitch button").forEach(function(b){ b.setAttribute("aria-pressed", b.getAttribute("data-lang") === currentLang ? "true" : "false"); });
@@ -3365,6 +3369,8 @@
             b.addEventListener("click", function(){ newPetSpecies = key; renderNewPetSpecies(); });
             grid.appendChild(b);
           });
+          var hint = $("photoPickerHint");
+          if (hint) hint.style.display = newPetSpecies === "photo" ? "" : "none";
         }
         var petModalLastFocus = null;
         function openPetModal(){
